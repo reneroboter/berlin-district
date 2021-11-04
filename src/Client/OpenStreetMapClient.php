@@ -23,20 +23,22 @@ class OpenStreetMapClient implements ClientInterface
     public function findBy(string $address): array
     {
         $key = md5($address);
-        return $this->cache->get($key, function (ItemInterface $item) use ($address) {
-            $item->expiresAfter(self::CACHE_LIMIT_ONE_WEEK);
+        return $this->cache->get(
+            $key, function (ItemInterface $item) use ($address) {
+                $item->expiresAfter(self::CACHE_LIMIT_ONE_WEEK);
 
-            $client = new HttpClient();
-            $response = $client->get(
-                $this->buildQueryUrl($address)
-            );
-            if ($response->getStatusCode() !== 200) {
-                throw new \RuntimeException(
-                    sprintf('Request %s and responses with %s', $address, $response->getStatusCode())
+                $client = new HttpClient();
+                $response = $client->get(
+                    $this->buildQueryUrl($address)
                 );
+                if ($response->getStatusCode() !== 200) {
+                    throw new \RuntimeException(
+                        sprintf('Request %s and responses with %s', $address, $response->getStatusCode())
+                    );
+                }
+                return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR)[0];
             }
-            return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR)[0];
-        });
+        );
     }
 
     protected function buildQueryUrl(string $address): string

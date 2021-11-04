@@ -34,8 +34,8 @@ class BerlinRepository implements RepositoryInterface
     public function findDistrictByAddress(string $address): string
     {
         $district = $this->client->findBy($address)['address']['borough'] ?? throw new RuntimeException(
-                'Could not found district'
-            );
+            'Could not found district'
+        );
         if (!\in_array($district, $this->districts, true)) {
             throw new RuntimeException('Could not found Berlin district');
         }
