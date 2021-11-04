@@ -1,0 +1,21 @@
+{
+    "name": "reneroboter/berlin-district",
+    "description": "Get the name of a district in Berlin by the given zip code",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "ReneRoboter\\BerlinDistrict\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "René Backhaus",
+            "email": "rene.backhaus@axelspringer.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.4",
+        "ext-json": "*",
+        "symfony/cache": "^5.3"
+    }
+}
